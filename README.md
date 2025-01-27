@@ -28,7 +28,7 @@ This is a simple REST API for managing a catalog of books. It provides functiona
 1. **Clone the repository**:
 
     ```bash
-    git clone https://github.com/yourusername/library-api.git
+    git clone https://github.com/lttyff89/LibraryOnline.git
     cd library-api
     ```
 
@@ -52,11 +52,11 @@ This is a simple REST API for managing a catalog of books. It provides functiona
     dotnet run
     ```
 
-    The API will be accessible at `http://localhost:5000` by default.
+    The API will be accessible at `http://localhost:7054` by default.
 
 5. **Access Swagger UI**:
 
-    The API documentation and interactive testing interface are available via Swagger. Once the application is running, you can access Swagger UI at `http://localhost:5000/swagger`.
+    The API documentation and interactive testing interface are available via Swagger. Once the application is running, you can access Swagger UI at `https://localhost:7054/swagger/index.html`.
 
 ## Authentication
 
