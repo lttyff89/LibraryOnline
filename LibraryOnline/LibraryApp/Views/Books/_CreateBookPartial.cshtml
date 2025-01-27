@@ -1,0 +1,220 @@
+﻿@model LibraryApp.Models.Book
+
+<div class="modal-body">
+    @Html.ValidationSummary(true, "<strong>Oops! There was an issue with the form. Please check the fields with errors.</strong>", new { @class = "alert alert-danger" })
+    <div id="alert-container"></div>
+    <form id="bookForm" method="post">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="Title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="Title" name="Title" required />
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "invalid-feedback" })
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="Author" class="form-label">Author</label>
+                <input type="text" class="form-control" id="Author" name="Author" required />
+                @Html.ValidationMessageFor(model => model.Author, "", new { @class = "invalid-feedback" })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="ISBN" class="form-label">ISBN</label>
+                <input type="text" class="form-control" id="ISBN" name="ISBN" required />
+                @Html.ValidationMessageFor(model => model.ISBN, "", new { @class = "invalid-feedback" })
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="Genre" class="form-label">Genre</label>
+                <input type="text" class="form-control" id="Genre" name="Genre" required />
+                @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "invalid-feedback" })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="PublishedDate" class="form-label">Published Date</label>
+                <input type="text" id="PunlishedDate" name="PunlishedDate" class="form-control" required />
+                @Html.ValidationMessageFor(model => model.PunlishedDate, "", new { @class = "invalid-feedback" })
+            </div>
+
+        </div>
+
+        <!-- Additional fields (if needed) -->
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="Username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="Username" name="Username" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="Password" class="form-label">Password</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="Password" name="Password" />
+                    <button type="button" id="togglePassword" class="btn btn-outline-secondary">
+                        <i id="togglePasswordIcon" class="fas fa-eye-slash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Add Bootstrap and FontAwesome dependencies -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#togglePassword').click(function () {
+            var $passwordField = $('#Password');
+            var $togglePasswordIcon = $('#togglePasswordIcon');
+
+            // Toggle between showing and hiding the password
+            if ($passwordField.attr('type') === 'password') {
+                $passwordField.attr('type', 'text'); // Show password
+                $togglePasswordIcon.removeClass('fa-eye-slash').addClass('fa-eye'); // Change icon to "show"
+            } else {
+                $passwordField.attr('type', 'password'); // Hide password
+                $togglePasswordIcon.removeClass('fa-eye').addClass('fa-eye-slash'); // Change icon to "hide"
+            }
+        });
+
+        // Function when clicking the "Submit" button
+        $('#submitButton').click(function (e) {
+            e.preventDefault(); // Prevent default form behavior
+
+            $('#errorMessage').addClass('d-none');
+
+            // Validate the fields
+            var isValid = true;
+            var errorMessage = '';
+
+            // Check if all required fields are filled
+            $('#addBookForm input').each(function () {
+                if ($(this).val() === '') {
+                    isValid = false;
+                    errorMessage += $(this).attr('name') + ' is required.\n';
+                }
+            });
+
+            var publishedDate = $('#PunlishedDate').val();  // Get the published date value
+
+            if (isValid) {
+                var formattedDate = formatDate(publishedDate);
+
+                // Collect form data
+                var dataToSend = {
+                    Title: $('#Title').val(),
+                    Author: $('#Author').val(),
+                    ISBN: $('#ISBN').val(),
+                    Genre: $('#Genre').val(),
+                    PunlishedDate: formattedDate
+                };
+
+                // Check if credentials are provided and add them to the dataToSend object
+                if ($('#Username').val() && $('#Password').val()) {
+                    dataToSend.Username = $('#Username').val();
+                    dataToSend.Password = $('#Password').val();
+                }
+
+                // AJAX call to API
+                $.ajax({
+                    url: '@Url.Action("Create", "Books")', // The URL of your controller action (adjust it)
+                    type: 'POST',
+                    data: dataToSend, // Send form data
+                    success: function (response) {
+                        console.log(response);
+
+                        if (response.success == false) {
+                            $('#alert-container').html(`
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                        <strong>Error:</strong> ${response.message}
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                            `);
+                        }
+                        else {
+                            // If the response is successful, show a success message
+                            $('#alert-container').html(`
+                                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                    <strong>Success!</strong> The book has been added successfully.
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                            `);
+                            // Clear the form after success
+                            $('#bookForm')[0].reset();
+                            // Refresh the page
+                            setTimeout(function () {
+                                location.reload(); // Reload the page
+                            }, 2000); // Wait 2 seconds before reloading to let the success message be seen
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = '';
+
+                        if (xhr.status === 400) {
+                            errorMessage = 'The request is invalid. Please check the entered data.';
+                        } else if (xhr.status === 401) {
+                            errorMessage = 'You are not authorized to perform this action. Please enter username and password.';
+                        } else if (xhr.status === 500) {
+                            errorMessage = 'There was an error on the server: ' + xhr.responseText;
+                        }
+
+                        // Show error message in a Bootstrap alert
+                        $('#alert-container').html(`
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Error:</strong> ${errorMessage}
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        `);
+                    }
+                });
+            }
+
+        });
+
+        $('#PunlishedDate').datepicker({
+            format: 'yyyy-mm-dd',   // Date format
+            todayHighlight: true,    // Highlight today's date
+            autoclose: true          // Close the calendar after selecting a date
+        });
+
+        function formatDate(date) {
+            console.log(date);
+            // Check if the date is already in yyyy-mm-dd format
+            var regex = /^\d{4}-\d{2}-\d{2}$/;
+            if (regex.test(date)) {
+                return date;  // If it's in the correct format, return it as is
+            }
+
+            // Split the date using dash (-) as delimiter (assume dd-mm-yyyy format)
+            var parts = date.split('-');
+
+            // Ensure the date has 3 parts (dd, mm, yyyy)
+            if (parts.length !== 3) {
+                console.error("Incorrect date format. It should be dd-mm-yyyy.");
+                return null; // Return null if the format is invalid
+            }
+
+            // Extract day, month, and year
+            var day = parts[0];
+            var month = parts[1];
+            var year = parts[2];
+
+            // Return the date in yyyy-mm-dd format
+            return year + '-' + month + '-' + day;
+        }
+
+    });
+</script>

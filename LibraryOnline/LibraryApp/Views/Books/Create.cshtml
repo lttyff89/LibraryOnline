@@ -1,0 +1,179 @@
+﻿@model LibraryApp.Models.Book
+
+@{
+    ViewData["Title"] = "Agregar Nuevo Libro";
+}
+
+<!-- Fondo con color claro y lápiz como ícono -->
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #f0f8ff;">
+    <div class="card p-4 shadow-lg border-primary" style="width: 100%; max-width: 600px;">
+        <!-- Título con fuente de tipo editorial -->
+        <h1 class="text-center mb-4 text-primary" style="font-family: 'Playfair Display', serif;">
+            <i class="fa fa-pencil-alt"></i> Agregar Nuevo Libro
+        </h1>
+
+        <!-- Muestra errores globales si hay errores de validación -->
+        @Html.ValidationSummary(true, "<strong>¡Oops! Hubo un problema con el formulario. Verifica los campos con errores.</strong>", new { @class = "alert alert-danger" })
+
+        <form id="bookForm" method="post">
+            <div class="mb-3">
+                <label for="Title" class="form-label">Título</label>
+                <input type="text" class="form-control" id="Title" name="Title" required />
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "invalid-feedback" })
+            </div>
+
+            <div class="mb-3">
+                <label for="Author" class="form-label">Autor</label>
+                <input type="text" class="form-control" id="Author" name="Author" required />
+                @Html.ValidationMessageFor(model => model.Author, "", new { @class = "invalid-feedback" })
+            </div>
+
+            <div class="mb-3">
+                <label for="ISBN" class="form-label">ISBN</label>
+                <input type="text" class="form-control" id="ISBN" name="ISBN" required />
+                @Html.ValidationMessageFor(model => model.ISBN, "", new { @class = "invalid-feedback" })
+            </div>
+
+            <div class="mb-3">
+                <label for="Genre" class="form-label">Género</label>
+                <input type="text" class="form-control" id="Genre" name="Genre" required />
+                @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "invalid-feedback" })
+            </div>
+
+            <div class="mb-3">
+                <label for="PublishedDate" class="form-label">Fecha de Publicación</label>
+                <input type="date" class="form-control" id="PunlishedDate" name="PunlishedDate" required />
+                @Html.ValidationMessageFor(model => model.PunlishedDate, "", new { @class = "invalid-feedback" })
+            </div>
+
+
+            <div class="container d-flex justify-content-center align-items-center" style="background-color: #f0f8ff;">
+                <!-- Card o contenedor para los campos -->
+                <div class="card p-4 shadow-lg border-primary" style="width: 100%; max-width: 600px;">
+
+                    <!-- Campos centrados horizontalmente -->
+                    <div class="d-flex flex-column align-items-center">
+                        <!-- Contenedor para usuario y contraseña alineados horizontalmente -->
+                        <div class="row w-100">
+                            <!-- Campo Usuario -->
+                            <div class="col mb-3">
+                                <label for="Username" class="form-label">Usuario</label>
+                                <input type="text" class="form-control" id="Username" name="Username" />
+                            </div>
+
+                            <!-- Campo Contraseña con mostrar/ocultar -->
+                            <div class="col mb-3">
+                                <label for="Password" class="form-label">Contraseña</label>
+                                <div class="input-group">
+                                    <!-- Campo de contraseña de tipo password -->
+                                    <input type="password" class="form-control" id="Password" name="Password" />
+                                    <!-- Ícono de ojo para mostrar/ocultar la contraseña -->
+                                    <button type="button" id="togglePassword" class="btn btn-outline-secondary">
+                                        <i id="togglePasswordIcon" class="fas fa-eye-slash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="d-flex justify-content-end w-100">
+                <button type="button" id="submitButton" class="btn btn-primary mt-3 me-2">Enviar</button>
+                <button type="button" id="cancelButton" class="btn btn-secondary mt-3">Cancelar</button>
+            </div>
+            @* <button type="button" id="submitButton" class="btn btn-primary mt-3">Enviar</button> *@
+        </form>
+    </div>
+</div>
+
+<!-- Aquí la estructura del HTML donde se mostrará la alerta -->
+<div id="alert-container"></div>
+
+<!-- Incluye jQuery y Font Awesome -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#togglePassword').click(function () {
+            var $passwordField = $('#Password');
+            var $togglePasswordIcon = $('#togglePasswordIcon');
+
+            // Alternar entre mostrar y ocultar la contraseña
+            if ($passwordField.attr('type') === 'password') {
+                $passwordField.attr('type', 'text'); // Mostrar la contraseña
+                $togglePasswordIcon.removeClass('fa-eye-slash').addClass('fa-eye'); // Cambiar el ícono a "mostrar"
+            } else {
+                $passwordField.attr('type', 'password'); // Ocultar la contraseña
+                $togglePasswordIcon.removeClass('fa-eye').addClass('fa-eye-slash'); // Cambiar el ícono a "ocultar"
+            }
+        });
+
+        // Función cuando se hace click en el botón "Enviar"
+        $('#submitButton').click(function (e) {
+            e.preventDefault(); // Evitar el comportamiento por defecto del formulario
+
+            // Recopilando los datos del formulario
+            var dataToSend = {
+                Title: $('#Title').val(),
+                Author: $('#Author').val(),
+                ISBN: $('#ISBN').val(),
+                Genre: $('#Genre').val(),
+                PunlishedDate: $('#PunlishedDate').val()
+
+            };
+            
+
+            // Verificar si se ingresaron las credenciales y agregarlas al objeto dataToSend
+            if ($('#Username').val() && $('#Password').val()) {
+                dataToSend.Username = $('#Username').val();
+                dataToSend.Password = $('#Password').val();
+            }
+
+            // Llamada AJAX a la API
+            $.ajax({
+                url: '@Url.Action("Create", "Books")', // La URL de tu acción en el controlador (puedes ajustarlo)
+                type: 'POST',
+                data: dataToSend, // Enviamos los datos del formulario
+                success: function (response) {
+                    console.log(response);
+                    // Si la respuesta es exitosa, mostramos un mensaje de éxito
+                    $('#alert-container').html(`
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>¡Éxito!</strong> El libro se ha agregado correctamente.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            `);
+                    // Limpiar el formulario después de éxito
+                    $('#bookForm')[0].reset();
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = '';
+
+                    if (xhr.status === 400) {
+                        errorMessage = 'La solicitud no es válida. Verifica los datos ingresados.';
+                    } else if (xhr.status === 401) {
+                        errorMessage = 'No estás autorizado para realizar esta acción. Por favor, inicia sesión.';
+                    } else if (xhr.status === 500) {
+                        errorMessage = 'Hubo un error en el servidor: ' + xhr.responseText;
+                    }
+
+                    // Mostrar el mensaje de error en una alerta de Bootstrap
+                    $('#alert-container').html(`
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Error:</strong> ${errorMessage}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            `);
+                }
+            });
+        });
+    });
+</script>

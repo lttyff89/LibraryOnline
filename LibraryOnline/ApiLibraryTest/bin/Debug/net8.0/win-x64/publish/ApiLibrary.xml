@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ApiLibrary</name>
+    </assembly>
+    <members>
+        <member name="M:LibraryApi.Controllers.BooksController.GetBooks">
+            <summary>
+            Obtiene todos los libros del catálogo.
+            </summary>
+            <returns>Una lista de libros</returns>
+        </member>
+        <member name="M:LibraryApi.Controllers.BooksController.GetBook(System.Int32)">
+            <summary>
+            Obtiene un libro específico por su ID.
+            </summary>
+            <param name="id">ID del libro</param>
+            <returns>Un libro con la información solicitada</returns>
+        </member>
+        <member name="M:LibraryApi.Controllers.BooksController.SearchBooks(System.String)">
+            <summary>
+            Busca libros por título, autor o género.
+            </summary>
+            <param name="query">Término de búsqueda</param>
+            <returns>Lista de libros que coinciden con el término de búsqueda</returns>
+        </member>
+        <member name="M:LibraryApi.Controllers.BooksController.AddBook(LibraryApi.Models.Book)">
+            <summary>
+            Agrega un nuevo libro al catálogo.
+            </summary>
+            <param name="book">Libro a agregar</param>
+            <returns>El libro recién agregado</returns>
+        </member>
+        <member name="M:LibraryApi.Controllers.BooksController.DeleteBook(System.Int32)">
+            <summary>
+            Elimina un libro por su ID.
+            </summary>
+            <param name="id">ID del libro a eliminar</param>
+            <returns>Código de estado 204 si la eliminación fue exitosa</returns>
+        </member>
+    </members>
+</doc>

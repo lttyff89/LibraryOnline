@@ -1,0 +1,256 @@
+﻿/* Barra de navegación con fondo gris claro */
+.navbar {
+    background-color: #f8f9fa; /* Gris claro para el fondo de la barra */
+    border-bottom: 2px solid #ddd; /* Línea sutil para la separación */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para darle un toque moderno */
+    width: 100%; /* Asegura que la barra ocupe todo el ancho */
+    position: fixed; /* Fija la barra en la parte superior */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Asegura que se quede arriba de otros elementos */
+}
+
+/* Logo de la barra */
+.navbar-brand img {
+    max-width: 100%; /* Asegura que el logo no se estire */
+    height: auto;
+}
+
+/* Enlaces de menú con texto gris oscuro */
+.nav-link {
+    color: #343a40 !important; /* Texto gris oscuro para los enlaces */
+    font-size: 1rem;
+    font-weight: 500; /* Un poco más grueso para el texto */
+    padding-left: 20px;
+    padding-right: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transición suave para el fondo y el color */
+}
+
+    .nav-link:hover, .nav-link.active {
+        color: #ffffff !important; /* Texto blanco en hover */
+        background-color: #6c757d; /* Gris más oscuro de fondo */
+        border-radius: 25px; /* Bordes redondeados para las opciones */
+        transform: scale(1.05); /* Efecto de aumento al pasar el ratón */
+    }
+
+/* Estilo para el menú desplegable */
+.navbar-nav .dropdown-menu {
+    background-color: #ffffff; /* Blanco para el fondo */
+    border: 1px solid #ddd; /* Borde sutil */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Más sombra al pasar el mouse */
+}
+
+/* Aseguramos que el fondo cubra toda la pantalla */
+body, html {
+    height: 100%;
+    margin: 0;
+    width: 100%; /* Ancho al 100% para la pantalla completa */
+}
+
+/* Personalización del fondo */
+.bg-image {
+    height: 100%; /* Asegura que el fondo cubra toda la altura */
+    width: 100%; /* Asegura que el fondo cubra todo el ancho */
+    position: relative;
+}
+
+/* Personalización del fondo */
+.mask-custom {
+    background: rgba(24, 24, 16, .2);
+    border-radius: 2em;
+    backdrop-filter: blur(25px);
+    border: 2px solid rgba(255, 255, 255, 0.05);
+    background-clip: padding-box;
+    box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+}
+
+/* Ajustes generales de la tarjeta */
+.card-body {
+    padding: 3rem;
+}
+
+/* Aseguramos que la tabla ocupe el 100% del ancho disponible */
+.table-responsive {
+    width: 100%; /* Tabla ocupa todo el ancho disponible */
+    overflow-x: auto; /* Desplazamiento horizontal habilitado */
+    overflow-y: hidden; /* Desactiva el desplazamiento vertical */
+}
+/ /* Estilo de la tabla */
+#booksTable {
+    width: 100%; /* La tabla ocupará todo el ancho disponible */
+    margin: 0 auto; /* Centra la tabla */
+    border-collapse: collapse; /* Asegura que no haya espacios entre las celdas */
+    table-layout: auto; /* Permite que el contenido determine el ancho de las columnas */
+    background-color: #f7f7f7; /* Fondo suave */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    border-radius: 10px; /* Bordes redondeados para una apariencia más suave */
+}
+
+/* Estilo de las celdas */
+#booksTable th, #booksTable td {
+    padding: 10px 12px; /* Espaciado interno más pequeño */
+    text-align: left; /* Alineación del texto */
+    border: 1px solid #e0e0e0; /* Bordes suaves */
+    border-radius: 8px; /* Bordes redondeados en las celdas */
+    word-wrap: break-word; /* Asegura que el texto largo se divida */
+    white-space: normal; /* Permite que el texto fluya correctamente */
+    font-family: 'Georgia', serif; /* Fuente clásica */
+    word-break: break-word; /* Hace que las palabras largas se rompan si es necesario */
+    overflow: hidden; /* Evita el desbordamiento de contenido fuera de las celdas */
+}
+
+/* Estilo de los encabezados (más suaves, sin el grueso) */
+#booksTable th {
+    background-color: #f1f1f1; /* Gris suave para el fondo */
+    color: #495057; /* Texto gris suave */
+    font-weight: normal; /* Peso de fuente normal para no hacerlo tan pesado */
+    font-size: 1rem; /* Tamaño de fuente moderado */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    padding: 8px 12px; /* Ajuste de padding para ser más pequeño */
+    white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+    overflow: hidden; /* Oculta cualquier contenido que se desborde */
+    text-overflow: ellipsis; /* Muestra "..." si el contenido es demasiado largo */
+    /* Eliminar la línea debajo del encabezado */
+    /* border-bottom: 2px solid #ddd;  */
+}
+/* Estilo para las filas de la tabla */
+#booksTable td {
+    background-color: #ffffff; /* Fondo blanco para las celdas */
+    color: #495057; /* Color de texto gris oscuro */
+    font-size: 0.9rem; /* Tamaño de fuente reducido para las celdas */
+}
+
+/* Efecto de hover en las filas */
+#booksTable tr:hover {
+    background-color: #f9f9f9; /* Fondo más claro al pasar el ratón */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Bordes redondeados para las celdas */
+#booksTable td:first-child {
+    border-top-left-radius: 8px;
+}
+
+#booksTable td:last-child {
+    border-top-right-radius: 8px;
+}
+/* Aseguramos que los elementos dentro de las celdas estén centrados */
+#booksTable td, #booksTable th {
+    text-align: center;
+}
+
+
+
+.main {
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    max-width: 1500px; /* Máximo ancho */
+    margin: 0 auto; /* Centrado horizontal */
+    padding: 2rem; /* Ajuste de padding */
+}
+.pb-5 {
+    padding-bottom: 3rem; /* Esto lo hará más grande */
+}
+/* Ajuste de padding y márgenes */
+.container {
+    margin-top: 20px;
+}
+
+.card {
+    margin-top: 50px; /* Espacio entre el fondo y la tarjeta */
+    width: 100%; /* Ancho de la tarjeta al 100% */
+    padding: 1.5rem; /* Espaciado dentro de la tarjeta */
+}
+
+/* Estilo para la sección intro */
+.section-intro {
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    margin: 0; /* Elimina márgenes */
+    padding: 50px 20px; /* Espaciado interno */
+    background-color: #f8f9fa; /* Fondo suave */
+}
+
+    .section-intro .container {
+        max-width: 100%; /* La container también puede expandirse al máximo */
+        width: 100%;
+    }
+
+    /* Ajustes adicionales para mantener el contenido dentro de un rango agradable */
+    .section-intro h1 {
+        font-size: 2.5rem; /* Tamaño de fuente para el título */
+        text-align: center;
+        color: #343a40;
+        margin-bottom: 20px;
+    }
+
+    .section-intro p {
+        font-size: 1.125rem; /* Tamaño de fuente para el párrafo */
+        text-align: center;
+        color: #495057;
+    }
+
+    /*delete book*/
+/* Aseguramos que el input ocupe todo el espacio disponible */
+.input-group {
+    width: 100%; /* Asegura que el contenedor ocupe el 100% del ancho disponible */
+}
+
+/* Estilos generales para los inputs */
+.modal-body .form-group input {
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno para un mejor aspecto */
+    width: 100%; /* Aseguramos que el campo ocupe el 100% del ancho disponible */
+}
+
+/* Estilo para el icono de ojo */
+.input-group-append {
+    cursor: pointer; /* Cambia el cursor al pasar sobre el icono */
+}
+
+/* Alineación y tamaño del icono */
+#eyeIcon {
+    font-size: 20px; /* Tamaño adecuado para el icono */
+    color: #007bff; /* Color del icono */
+}
+
+/* Cambio de borde al enfocar el campo */
+.modal-body .form-group input:focus {
+    border-color: #007bff; /* Borde azul al enfocar */
+    outline: none; /* Eliminar el contorno */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra de enfoque */
+}
+
+/* Separación entre los botones y los campos */
+.modal-body .form-group button {
+    margin: 10px 10px 10px 10px; /* Margen entre los botones */
+    padding: 10px 20px; /* Espaciado dentro del botón */
+    font-size: 16px; /* Tamaño de fuente para los botones */
+}
+
+    /* Estilo del botón de cancelar */
+    .modal-body .form-group button.btn-secondary {
+        background-color: #6c757d; /* Color gris del botón de cancelar */
+        border: none; /* Sin borde */
+        border-radius: 5px; /* Bordes redondeados */
+    }
+
+    /* Estilo del botón de eliminar */
+    .modal-body .form-group button.btn-danger {
+        background-color: #dc3545; /* Color rojo para el botón de eliminar */
+        border: none; /* Sin borde */
+        border-radius: 5px; /* Bordes redondeados */
+    }
+
+/* Asegurar que el icono se alinee dentro del campo */
+.input-group .form-control {
+    padding-right: 40px; /* Añadir espacio a la derecha para el icono */
+}
+
+.input-group-append .input-group-text {
+    padding: 0; /* Eliminar el padding extra */
+    background-color: #fff; /* Fondo blanco para el icono */
+    border-left: 1px solid #ccc; /* Borde a la izquierda del icono */
+    border-radius: 0 5px 5px 0; /* Bordes redondeados a la derecha */
+}
+
+
