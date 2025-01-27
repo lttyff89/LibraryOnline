@@ -1,0 +1,28 @@
+name: Descomprimir archivos RAR
+
+on:
+  push:
+    paths:
+      - '**.rar'  # Ejecutar la acción cuando subas archivos .rar
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Instalar unrar
+      run: sudo apt-get install unrar
+
+    - name: Ejecutar script de descompresión
+      run: |
+        chmod +x descomprimir.sh  # Dar permisos de ejecución al script
+        ./descomprimir.sh archivo.rar  # Llamar al script para descomprimir
+
+    - name: Subir archivos descomprimidos
+      run: |
+        git add descomprimido/
+        git commit -m "Subir archivos descomprimidos"
+        git push
